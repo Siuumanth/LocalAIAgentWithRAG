@@ -1,5 +1,5 @@
 from langchain_ollama import OllamaEmbeddings
-from langchain.chroma import Chrome
+from langchain_chroma import Chroma
 from langchain_core.documents import Document
 import os
 import pandas as pd
@@ -35,14 +35,14 @@ if add_documents:
 # initialising vector store using chroma
 vector_store = Chroma(
     collection_name = "restaurant_reviews",
-    persistent_directory = db_location,
+    persist_directory = db_location,
     embedding_function = embeddings
 )
 
 # adding data to the vector store if not added 
 # it will automatically embed all our data for us and add to vector store
 if add_documents:
-    vector_store.add_documents(documents, ids)
+    vector_store.add_documents(documents=documents, ids=ids)
 
 
 # making our vector store usable by LLM

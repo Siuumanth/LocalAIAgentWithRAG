@@ -1,6 +1,6 @@
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import PromptTemplate
-
+from vector import retriever
 
 model = OllamaLLM(model="llama3.2")
 
@@ -17,10 +17,11 @@ prompt = PromptTemplate.from_template(template=template)
 chain = prompt | model #Invoking the chain 
 
 while True:
-    print('\n\n\n--------------------------------------')
+    print('\n\n\n--------------------------------------\n')
     question = input("What is your question? (q to quit)")
     if question == "q":
         break
-
-    result =chain.invoke({"reviews":[], "question":"What is the best     pizza?"})
+    
+    reviews = retriever.invoke(question)
+    result =chain.invoke({"reviews":reviews, "question": question})
     print(result)
